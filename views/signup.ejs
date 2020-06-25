@@ -1,0 +1,49 @@
+<%- include("components/header") %>
+<% if(message != ""){ %>
+    <p><%= message %></p>
+<% } %>
+<form action="/signup" method="POST">
+    <div class="field">
+        <div class="title-label">Name</div>
+        <div class="control">
+            <input type="text" name="name">
+        </div>
+        <div class="title-label">Email</div>
+        <div class="control">
+            <input type="email" name="email">
+        </div>
+        <div class="title-label">Password</div>
+        <div class="control">
+            <input type="password" name="password">
+        </div>
+        <div class="title-label">Sex</div>
+        <div class="control">
+            <input type="text" name="sex">
+        </div>
+        <div class="title-label">Weight</div>
+        <div class="control">
+            <input type="number" name="weight">
+        </div>
+        <div class="title-label">Height</div>
+        <div class="control">
+            <input type="number" name="height">
+        </div>
+        <div class="title-label">Age</div>
+        <div class="control">
+            <input type="number" name="age">
+        </div>
+        <div class="title-label">Activity</div>
+        <div class="control">
+            <input type="number" name="activity">
+        </div>
+        <div class="title-label">Goal</div>
+        <div class="control">
+            <select name="goal">
+                <option value=-500>Lose Weight</option>
+                <option value=0>Maintain Weight</option>
+                <option value=500>Gain Weight</option>
+            </select>
+        </div>
+    </div>
+    <input type="submit" value="signup">
+</form>

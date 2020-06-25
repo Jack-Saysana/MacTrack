@@ -1,0 +1,160 @@
+<%- include("components/header") %>
+<body>
+    <div class="container">
+        <div class="left-side">
+            <div class="card tracker" id="calories">
+                <h5>Calorie Tracker</h5>
+                <p><%= currentCalories %> / <%= calorieNeeds %></p>
+            </div>
+            
+            <div class="card tracker" id="foods">
+                <h5>Food Tracker</h5>
+                <% user.foods.forEach(food => { %>
+                <% if(food.date.getDate() == (new Date).getDate() && food.date.getMonth() == (new Date).getMonth() && food.date.getFullYear() == (new Date).getFullYear()){ %>
+                <div class="card" id="<%=food._id%>">
+                    <h6><%= food.name %></h6>
+                </div>
+                <% } %>
+                <% }); %>
+            </div>
+        </div>
+        <div class="card tracker" id="macros">
+            <h5>Macro Tracker</h5>
+            <div class="macro-progress">
+                <div class="fat macro">
+                    <div class="macro-bar">
+                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.fat %>%"></div>
+                    </div>
+                    <div class="macro-percentage"><%= Math.round(currentMacros.fat) %>%</div>
+                </div>
+                
+                <div class="protien macro">
+                    <div class="macro-bar">
+                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.protien %>%"></div>
+                    </div>
+                    <div class="macro-percentage"><%= Math.round(currentMacros.protien) %>%</div>
+                </div>
+                
+                <div class="carbs macro">
+                    <div class="macro-bar">
+                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.carbs %>%"></div>
+                    </div>
+                    <div class="macro-percentage"><%= Math.round(currentMacros.carbs) %>%</div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400&display=swap');
+
+    body {
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .tracker {
+        margin-top: 1rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    .left-side{
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #calories {
+        width: 32rem;
+        float: left;
+    }
+
+    #foods{
+        width: 32rem;
+        float: left;
+    }
+
+    #macros{
+        width: 32rem;
+        height: 60%;
+        float: right;
+    }
+
+    .macro-progress {
+        position: relative;
+        margin-top: 1rem;
+        margin-left: 20%;
+        height: 40%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .macro-bar {
+        position: relative;
+        margin-bottom: .5rem;
+        height: 100%;
+    }
+
+    .macro-percentage {
+        position: absolute;
+        bottom: -5rem;
+        background-color: #5C8BD6;
+        height: 3rem;
+        width: 3rem;
+        border-radius: 2rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        margin-left: 1.5rem;
+        text-align: center;
+        font-weight: bold;
+        padding-top: .75rem;
+    }
+
+    .macro-fill {
+        position: absolute;
+        background-color: #3066BE;
+        border-radius: .5rem;
+        width: 3rem;
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+        bottom: 0;
+    }
+
+    .fat {
+        margin-left:0%
+    }
+
+    .protien {
+        margin-left: 20%
+    }
+
+    .carbs {
+        margin-left: 20%
+    }
+</style>
+
+<script>
+    (function() {
+        function macroAnim(){
+            var bars = document.getElementsByClassName("macro");
+            Array.prototype.forEach.call(bars, bar => {
+                var height = 0;
+                var id = setInterval(frame, 10);
+                function frame() {
+                    if(height >= bar.getElementsByClassName("macro-bar")[0].getElementsByClassName("macro-fill")[0].style.maxHeight){
+                        clearInterval(id);
+                    }else{
+                        height++;
+                        bar.getElementsByClassName("macro-bar")[0].getElementsByClassName("macro-fill")[0].style.height = height + '%';
+                    }
+                }
+            });
+        }
+
+        macroAnim();
+    })();
+</script>

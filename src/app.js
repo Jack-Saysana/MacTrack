@@ -1,10 +1,12 @@
 require('dotenv').config();
 const express = require("express");
+const flash = require("express-flash");
 const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
+const router = require("../router/router.js");
 require("../config/passport.config.js")(passport);
 
 mongoose.connect("mongodb://localhost/mactrac", {
@@ -24,5 +26,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+
+app.use("/", router);
 
 module.exports = app;
