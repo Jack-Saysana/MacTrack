@@ -34,3 +34,18 @@ Content-Type: application/json
     "protien": 36,
     "carbs": 44
 }
+
+###
+POST http://localhost:3000/newFood HTTP/1.1
+Content-Type: application/json
+
+{
+    "user": {
+        "_id": "5ef553f2f737b640381ef034"
+    },
+    "name": "Cake",
+    "calories": 70,
+    "fat": 70,
+    "protien": 36,
+    "carbs": 44
+}

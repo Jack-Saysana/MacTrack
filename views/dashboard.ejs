@@ -10,11 +10,11 @@
             <div class="card tracker" id="foods">
                 <h5>Food Tracker</h5>
                 <% user.foods.forEach(food => { %>
-                <% if(food.date.getDate() == (new Date).getDate() && food.date.getMonth() == (new Date).getMonth() && food.date.getFullYear() == (new Date).getFullYear()){ %>
-                <div class="card" id="<%=food._id%>">
-                    <h6><%= food.name %></h6>
-                </div>
-                <% } %>
+                    <% if(food.date.getDate() == (new Date).getDate() && food.date.getMonth() == (new Date).getMonth() && food.date.getFullYear() == (new Date).getFullYear()){ %>
+                        <div class="card" id="<%=food._id%>">
+                            <h6><%= food.name %></h6>
+                        </div>
+                    <% } %>
                 <% }); %>
             </div>
         </div>
@@ -23,25 +23,50 @@
             <div class="macro-progress">
                 <div class="fat macro">
                     <div class="macro-bar">
-                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.fat %>%"></div>
+                        <div class="macro-fill" style="background-color: #E11439; height: 0; max-height:<%= currentMacros.fat %>%"></div>
                     </div>
-                    <div class="macro-percentage"><%= Math.round(currentMacros.fat) %>%</div>
+                    <div class="macro-label" style="margin-left: 2rem;">Fat</div>
+                    <div class="ideal-ratio" style="display:none"><%= macroRatio.fat %></div>
                 </div>
                 
                 <div class="protien macro">
                     <div class="macro-bar">
-                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.protien %>%"></div>
+                        <div class="macro-fill" style="background-color: #E59500; height: 0; max-height:<%= currentMacros.protien %>%"></div>
                     </div>
-                    <div class="macro-percentage"><%= Math.round(currentMacros.protien) %>%</div>
+                    <div class="macro-label" style="margin-left: 1.5rem;">Protien</div>
+                    <div class="ideal-ratio" style="display:none"><%= macroRatio.protien %></div>
                 </div>
                 
                 <div class="carbs macro">
                     <div class="macro-bar">
-                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.carbs %>%"></div>
+                        <div class="macro-fill" style="background-color: #1982C4; height: 0; max-height:<%= currentMacros.carbs %>%"></div>
                     </div>
-                    <div class="macro-percentage"><%= Math.round(currentMacros.carbs) %>%</div>
+                    <div class="macro-label" style="margin-left: 1.7rem;">Carbs</div>
+                    <div class="ideal-ratio" style="display:none"><%= macroRatio.carbs %></div>
                 </div>
                 
+            </div>
+            <div class="macro-info">
+                <div>
+                    <p class="info-header" style="margin-left: 10%">Macronutrient</p>
+                    <p class="info-header" style="margin-left: 15%">Diet Percentage</p>
+                    <p class="info-header" style="margin-left: 5%">Current Percentage</p>
+                </div>
+                <div class="table-row">
+                    <p class="row-info">Fat</p>
+                    <p class="row-info" style="margin-left: 52%"><%= Math.round(macroRatio.fat) %>%</p>
+                    <p class="row-info" style="margin-left: 28%"><%= Math.round(currentMacros.fat) %>%</p>
+                </div>
+                <div class="table-row">
+                    <p class="row-info">Protien</p>
+                    <p class="row-info" style="margin-left: 46%"><%= Math.round(macroRatio.protien) %>%</p>
+                    <p class="row-info" style="margin-left: 28%"><%= Math.round(currentMacros.protien) %>%</p>
+                </div>
+                <div class="table-row" style="border-bottom-style: none;">
+                    <p class="row-info">Carbs</p>
+                    <p class="row-info" style="margin-left: 48%"><%= Math.round(macroRatio.carbs) %>%</p>
+                    <p class="row-info" style="margin-left: 28%"><%= Math.round(currentMacros.carbs) %>%</p>
+                </div>
             </div>
         </div>
     </div>
@@ -51,6 +76,7 @@
 
     body {
         font-family: 'Nunito', sans-serif;
+        background-color: rgb(247, 247, 247);
     }
 
     .tracker {
@@ -58,7 +84,7 @@
         margin-left: 1rem;
         margin-right: 1rem;
         padding: 1rem;
-        border-radius: 1rem;
+        border-radius: .5rem;
     }
 
     .left-side{
@@ -68,18 +94,18 @@
     }
 
     #calories {
-        width: 32rem;
+        width: 34.5rem;
         float: left;
     }
 
     #foods{
-        width: 32rem;
+        width: 34.5rem;
         float: left;
     }
 
     #macros{
         width: 32rem;
-        height: 60%;
+        height: 70%;
         float: right;
     }
 
@@ -95,29 +121,18 @@
 
     .macro-bar {
         position: relative;
-        margin-bottom: .5rem;
         height: 100%;
     }
 
-    .macro-percentage {
+    .macro-label {
         position: absolute;
-        bottom: -5rem;
-        background-color: #5C8BD6;
-        height: 3rem;
-        width: 3rem;
-        border-radius: 2rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-        margin-left: 1.5rem;
         text-align: center;
-        font-weight: bold;
         padding-top: .75rem;
     }
 
     .macro-fill {
         position: absolute;
-        background-color: #3066BE;
-        border-radius: .5rem;
+        border-radius: .25rem;
         width: 3rem;
         margin-left: 1.5rem;
         margin-right: 1.5rem;
@@ -134,6 +149,31 @@
 
     .carbs {
         margin-left: 20%
+    }
+
+    .macro-info {
+        margin-top: 2rem;
+    }
+
+    .info-header {
+        font-weight: bold;
+        font-size: .8rem;
+        float: left;
+        margin-top: 2rem;
+    }
+    
+    .table-row {
+        float: left;
+        margin-left: 10%;
+        width: 80%;
+        border-bottom-style: solid;
+        border-width: 2px;
+        border-color: rgb(214, 214, 214);
+    }
+
+    .row-info {
+        float: left;
+        font-size: .8rem;
     }
 </style>
 
