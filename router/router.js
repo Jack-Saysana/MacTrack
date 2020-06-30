@@ -52,8 +52,6 @@ router.get("/dashboard", isLoggedIn, (req, res, next) => {
             macros.carbs += food.macros.carbs;
         }
     });
-    console.log(currentCalories);
-    console.log(macros);
     const totalMacros = macros.fat + macros.protien + macros.carbs;
     macros = { fat: 100 * (macros.fat / totalMacros), protien: 100*(macros.protien / totalMacros), carbs: 100*(macros.carbs / totalMacros)};
     res.render("dashboard", {user: req.user, calorieNeeds: Math.ceil(calorieNeeds), currentCalories: currentCalories, currentMacros: macros, macroRatio: macroRatio});

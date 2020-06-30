@@ -29,10 +29,10 @@ Content-Type: application/json
         "_id": "5ef3b04f0d64762640382c69"
     },
     "name": "Cake",
-    "calories": 70,
-    "fat": 70,
-    "protien": 36,
-    "carbs": 44
+    "calories": 1284,
+    "fat": 35,
+    "protien": 50,
+    "carbs": 20
 }
 
 ###

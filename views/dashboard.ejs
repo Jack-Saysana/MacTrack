@@ -2,16 +2,25 @@
 <body>
     <div class="container">
         <div class="left-side">
+            <div class="card tracker welcome">
+                <h2 style="font-weight: bold;"><span id="welcome"></span> <%= user.name %></h2>
+                <div class="welcome-text" id="day"></div>
+                <div class="welcome-text" id="time"></div>
+            </div>
+
             <div class="card tracker" id="calories">
                 <h5>Calorie Tracker</h5>
-                <p><%= currentCalories %> / <%= calorieNeeds %></p>
+                <p class="calorie-ratio"><%= currentCalories %> / <%= calorieNeeds %> <span style="font-size: 1rem; font-weight: bold;">Kcal</span></p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" id="calorie-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; max-width: <%= (Math.round((currentCalories / calorieNeeds) * 100) > 100 ? 100 : Math.round((currentCalories / calorieNeeds) * 100)) %>%"></div>
+                </div>
             </div>
             
             <div class="card tracker" id="foods">
                 <h5>Food Tracker</h5>
                 <% user.foods.forEach(food => { %>
                     <% if(food.date.getDate() == (new Date).getDate() && food.date.getMonth() == (new Date).getMonth() && food.date.getFullYear() == (new Date).getFullYear()){ %>
-                        <div class="card" id="<%=food._id%>">
+                        <div class="card food-card" id="<%=food._id%>">
                             <h6><%= food.name %></h6>
                         </div>
                     <% } %>
@@ -23,7 +32,7 @@
             <div class="macro-progress">
                 <div class="fat macro">
                     <div class="macro-bar">
-                        <div class="macro-fill" style="background-color: #E11439; height: 0; max-height:<%= currentMacros.fat %>%"></div>
+                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.fat %>%"></div>
                     </div>
                     <div class="macro-label" style="margin-left: 2rem;">Fat</div>
                     <div class="ideal-ratio" style="display:none"><%= macroRatio.fat %></div>
@@ -31,7 +40,7 @@
                 
                 <div class="protien macro">
                     <div class="macro-bar">
-                        <div class="macro-fill" style="background-color: #E59500; height: 0; max-height:<%= currentMacros.protien %>%"></div>
+                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.protien %>%"></div>
                     </div>
                     <div class="macro-label" style="margin-left: 1.5rem;">Protien</div>
                     <div class="ideal-ratio" style="display:none"><%= macroRatio.protien %></div>
@@ -39,7 +48,7 @@
                 
                 <div class="carbs macro">
                     <div class="macro-bar">
-                        <div class="macro-fill" style="background-color: #1982C4; height: 0; max-height:<%= currentMacros.carbs %>%"></div>
+                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.carbs %>%"></div>
                     </div>
                     <div class="macro-label" style="margin-left: 1.7rem;">Carbs</div>
                     <div class="ideal-ratio" style="display:none"><%= macroRatio.carbs %></div>
@@ -49,23 +58,23 @@
             <div class="macro-info">
                 <div>
                     <p class="info-header" style="margin-left: 10%">Macronutrient</p>
-                    <p class="info-header" style="margin-left: 15%">Diet Percentage</p>
-                    <p class="info-header" style="margin-left: 5%">Current Percentage</p>
+                    <p class="info-header" style="margin-left: 14%">Ideal Diet Percent</p>
+                    <p class="info-header" style="margin-left: 4%">Current Diet Percent</p>
                 </div>
                 <div class="table-row">
                     <p class="row-info">Fat</p>
-                    <p class="row-info" style="margin-left: 52%"><%= Math.round(macroRatio.fat) %>%</p>
-                    <p class="row-info" style="margin-left: 28%"><%= Math.round(currentMacros.fat) %>%</p>
+                    <p class="row-info ideal" style="margin-left: 52%"><%= Math.round(macroRatio.fat) %>%</p>
+                    <p class="row-info current" style="margin-left: 28%"><%= Math.round(currentMacros.fat) %>%</p>
                 </div>
                 <div class="table-row">
                     <p class="row-info">Protien</p>
-                    <p class="row-info" style="margin-left: 46%"><%= Math.round(macroRatio.protien) %>%</p>
-                    <p class="row-info" style="margin-left: 28%"><%= Math.round(currentMacros.protien) %>%</p>
+                    <p class="row-info ideal" style="margin-left: 46%"><%= Math.round(macroRatio.protien) %>%</p>
+                    <p class="row-info current" style="margin-left: 28%"><%= Math.round(currentMacros.protien) %>%</p>
                 </div>
                 <div class="table-row" style="border-bottom-style: none;">
                     <p class="row-info">Carbs</p>
-                    <p class="row-info" style="margin-left: 48%"><%= Math.round(macroRatio.carbs) %>%</p>
-                    <p class="row-info" style="margin-left: 28%"><%= Math.round(currentMacros.carbs) %>%</p>
+                    <p class="row-info ideal" style="margin-left: 48%"><%= Math.round(macroRatio.carbs) %>%</p>
+                    <p class="row-info current" style="margin-left: 28%"><%= Math.round(currentMacros.carbs) %>%</p>
                 </div>
             </div>
         </div>
@@ -91,6 +100,19 @@
         position: absolute;
         display: flex;
         flex-direction: column;
+        height: 100%
+    }
+
+    .welcome-text {
+        text-align: right;
+    }
+
+    #day {
+        color: rgb(180, 180, 180);
+    }
+
+    #time {
+        font-size: 2rem;
     }
 
     #calories {
@@ -98,14 +120,29 @@
         float: left;
     }
 
+    .calorie-ratio {
+        font-size: 2rem;
+        font-weight: bold;
+        text-align: right;
+    }
+
     #foods{
         width: 34.5rem;
         float: left;
+        height: 60%;
+        overflow-y: scroll;
+    }
+
+    .food-card{
+        margin-top: 1rem;
+        height: 20%;
+        border-radius: 1rem;
+        padding: 1rem;
     }
 
     #macros{
         width: 32rem;
-        height: 70%;
+        height: 60%;
         float: right;
     }
 
@@ -132,6 +169,7 @@
 
     .macro-fill {
         position: absolute;
+        background-color: #266DD3;
         border-radius: .25rem;
         width: 3rem;
         margin-left: 1.5rem;
@@ -175,17 +213,71 @@
         float: left;
         font-size: .8rem;
     }
+
+    .current {
+        font-weight: bold;
+    }
 </style>
 
 <script>
     (function() {
+        function getTime(){
+            var date = new Date();
+            var hour = date.getHours() <= 11 ? (date.getHours() == 0 ? 12 : date.getHours()) : ((date.getHours() - 12) == 0 ? 12 : (date.getHours() - 12));
+            var min = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+            var timeOfDay = date.getHours() <= 11 ? "am" : "pm";
+            var month = date.getMonth() == 0 ? "January" : (date.getMonth() == 1 ? "February" : (date.getMonth() == 2 ? "March" : (date.getMonth() == 3 ? "April" : (date.getMonth() == 4 ? "May" : (date.getMonth() == 5 ? "June" : (date.getMonth() == 6 ? "July" : 
+                       (date.getMonth() == 7 ? "August" : (date.getMonth() == 8 ? "September" : (date.getMonth() == 9 ? "October" : (date.getMonth() == 10 ? "November" : "December"))))))))));
+            var day = date.getDay() == 0 ? "Sunday" : (date.getDay() == 1 ? "Monday" : (date.getDay() == 2 ? "Tuesday" : (date.getDay() == 3 ? "Wednesday" : (date.getDay() == 4 ? "Thursday" : (date.getDay() == 5 ? "Friday" : "Saturday")))));
+            document.getElementById("time").innerHTML = `${hour}:${min} ${timeOfDay}`;
+            document.getElementById("day").innerHTML = `${day}, ${month} ${date.getDate()}`
+            document.getElementById("welcome").innerHTML = date.getHours() <= 11 ? "Good morning," : ((date.getHours() - 12 <= 5) ? "Good afternoon," : "Good evening,");
+        }
+
+        function tellTime(){
+            var time = setInterval(() => {
+                getTime();
+            }, 1000);
+        }
+
+        function calorieColorDetection(){
+            var current = document.getElementsByClassName("calorie-ratio")[0].innerHTML.substring(0, document.getElementsByClassName("calorie-ratio")[0].innerHTML.indexOf("/"));
+            var ideal = document.getElementsByClassName("calorie-ratio")[0].innerHTML.substring(document.getElementsByClassName("calorie-ratio")[0].innerHTML.indexOf("/") + 2, document.getElementsByClassName("calorie-ratio")[0].innerHTML.indexOf("<"));
+            if(current == ideal){
+                document.getElementById("calorie-bar").classList.add("bg-success");
+                document.getElementsByClassName("calorie-ratio")[0].style.color = "#4BB543";
+            }else if(current > ideal){
+                if(document.getElementById("calorie-bar").classList.contains("bg-success")){
+                    document.getElementById("calorie-bar").classList.remove("bg-success");    
+                }
+                document.getElementById("calorie-bar").classList.add("bg-danger");
+                document.getElementsByClassName("calorie-ratio")[0].style.color = "#F32013";
+            }
+        }
+
+        function calorieAnim(){
+            var bar = document.getElementById("calorie-bar");
+            var width = 0;
+            var id = setInterval(frame, 10);
+            function frame() {
+                if(width >= bar.style.maxWidth.substring(0, bar.style.maxWidth.indexOf("%"))){
+                    calorieColorDetection();
+                    clearInterval(id);
+                }else{
+                    width++;
+                    bar.style.width = width + '%';
+                    bar.ariaValueNow = width;
+                }
+            }
+        }
+
         function macroAnim(){
             var bars = document.getElementsByClassName("macro");
             Array.prototype.forEach.call(bars, bar => {
                 var height = 0;
                 var id = setInterval(frame, 10);
                 function frame() {
-                    if(height >= bar.getElementsByClassName("macro-bar")[0].getElementsByClassName("macro-fill")[0].style.maxHeight){
+                    if(height >= bar.getElementsByClassName("macro-bar")[0].getElementsByClassName("macro-fill")[0].style.maxHeight.substring(0, bar.getElementsByClassName("macro-bar")[0].getElementsByClassName("macro-fill")[0].style.maxHeight.indexOf("%"))){
                         clearInterval(id);
                     }else{
                         height++;
@@ -195,6 +287,24 @@
             });
         }
 
+        function macroColorDetection(){
+            var macros = document.getElementsByClassName("table-row");
+            Array.prototype.forEach.call(macros, macro => {
+                const ideal = macro.getElementsByClassName("ideal")[0].innerHTML.substring(0, macro.getElementsByClassName("ideal")[0].innerHTML.indexOf("%"));
+                const current = macro.getElementsByClassName("current")[0].innerHTML.substring(0, macro.getElementsByClassName("current")[0].innerHTML.indexOf("%"));
+                if(ideal - current == 0){
+                    macro.getElementsByClassName("current")[0].style.color = "#4BB543";
+                }else if(Math.abs(ideal - current) <= 5){
+                    macro.getElementsByClassName("current")[0].style.color = "#ffd23f";
+                }else{
+                    macro.getElementsByClassName("current")[0].style.color = "#F32013";
+                }
+            });
+        }
+
+        tellTime();
+        calorieAnim();
         macroAnim();
+        macroColorDetection();
     })();
 </script>
