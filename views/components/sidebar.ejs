@@ -1,0 +1,79 @@
+<div class="sidebar">
+    <div class="sidebar-title">MacTrack</div>
+    <div class="sidebar-section">
+        <div class="section-title">Pages</div>
+        <a class="sidebar-item" style="margin-top: .5rem;" href="/dashboard">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bar-chart-fill" fill="#FAFAFA" xmlns="http://www.w3.org/2000/svg">
+                <rect width="4" height="5" x="1" y="10" rx="1" />
+                <rect width="4" height="9" x="6" y="6" rx="1" />
+                <rect width="4" height="14" x="11" y="1" rx="1" />
+            </svg>
+            <span style="margin-left: .5rem;">Dashboard</span>
+        </a>
+        <a class="sidebar-item" href="/user">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-people-fill" fill="#FAFAFA" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z" />
+            </svg>
+            <span style="margin-left: .5rem;">Profile</span>
+        </a>
+        <a class="sidebar-item" href="/logout">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-signpost-fill" fill="#FAFAFA" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 1.414V4h2V1.414a1 1 0 0 0-2 0zM1 5a1 1 0 0 1 1-1h10.532a1 1 0 0 1 .768.36l1.933 2.32a.5.5 0 0 1 0 .64L13.3 9.64a1 1 0 0 1-.768.36H2a1 1 0 0 1-1-1V5zm6 5h2v6H7v-6z"/>
+            </svg>
+            <span style="margin-left: .5rem;">Logout</span>
+        </a>
+    </div>
+</div>
+
+<style>
+    .sidebar {
+        position: fixed;
+        margin: 0;
+        padding: 0;
+        width: 300px;
+        height: 100%;
+        background-color: #1C2121;
+        color: #FAFAFA;
+    }
+
+    .sidebar-title{
+        text-align: center;
+        font-size: 1.5rem;
+        height: 4rem;
+        padding-top: .75rem;
+        background-color: #262C2C;
+    }
+
+    .sidebar-section{
+        margin-top: 1rem;   
+    }
+
+    .section-title{
+        padding-left: 1rem;
+        color: #4a5555;
+    }
+
+    .sidebar-item {
+        display: block;
+        height: 3rem;
+        padding-top: .75rem;
+        padding-left: 1rem;
+        text-decoration: none;
+        color: #FAFAFA;
+    }
+
+    .sidebar-item:hover {
+        background-color: #262C2C;
+        transition-duration: .2s;
+        text-decoration: none;
+        color: #FAFAFA;
+    }
+
+    .active {
+        background-color: #3678BF;
+    }
+
+    .active:hover {
+        background-color: #2D649F;
+    }
+</style>

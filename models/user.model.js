@@ -62,7 +62,7 @@ const userSchema = new Schema({
             required: true
         },
         activity: {
-            type: Number,
+            type: Schema.Types.Decimal128,
             required: true
         },
         goal: {

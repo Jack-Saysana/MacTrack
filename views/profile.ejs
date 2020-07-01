@@ -1,0 +1,157 @@
+<%- include("components/header") %>
+
+<body>
+    <%- include("components/sidebar") %>
+
+    <div class="container" style="margin-left: calc(21% + 100px); padding-top: 3rem;">
+        <h2 style="font-weight: bold;">Hello, <%= user.name %></h2>
+        <h5 style="color: rgb(180, 180, 180)">Edit your details...</h5>
+        <form action="/user/<%= user._id %>" method="POST" autocomplete="off">
+            <% if(message != ""){ %>
+                <%= message %>
+            <% } %>
+            <div class="field">
+                <div class="title-label">Name</div>
+                <div class="control">
+                    <input class="form-control" type="text" name="name" value="<%= user.name %>" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="title-label">Email</div>
+                <div class="control">
+                    <input class="form-control" type="email" name="email" value="<%= user.email %>" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="title-label">Sex</div>
+                <div class="control">
+                    <select class="form-control" name="sex" value="<%= user.healthInfo.sex %>" required>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+            </div>
+            <div class="field">
+                <div class="title-label">Weight (lbs)</div>
+                <div class="control">
+                    <input class="form-control" type="text" name="weight" value="<%= user.healthInfo.weight %>" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="title-label">Height (in)</div>
+                <div class="control">
+                    <input class="form-control" type="text" name="height" value="<%= user.healthInfo.height %>" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="title-label">Age</div>
+                <div class="control">
+                    <input class="form-control" type="text" name="age" value="<%= user.healthInfo.age %>" required>
+                </div>
+            </div>
+            <div class="field">
+                <div class="title-label">Activity</div>
+                <div class="control">
+                    <select class="form-control" name="activity" value="<%= user.healthInfo.activity %>" required>
+                        <% if(user.healthInfo.activity == 1.2){ %>
+                            <option value=1.2 selected>Sedentary</option>
+                            <option value=1.375>Light Exercise</option>
+                            <option value=1.55>Moderate Exercise</option>
+                            <option value=1.725>Hard Exercise</option>
+                            <option value=1.9>Extra Active</option>
+                        <% } %>
+                        <% if(user.healthInfo.activity == 1.375){ %>
+                            <option value=1.2>Sedentary</option>
+                            <option value=1.375 selected>Light Exercise</option>
+                            <option value=1.55>Moderate Exercise</option>
+                            <option value=1.725>Hard Exercise</option>
+                            <option value=1.9>Extra Active</option>
+                        <% } %>
+                        <% if(user.healthInfo.activity == 1.55){ %>
+                            <option value=1.2>Sedentary</option>
+                            <option value=1.375>Light Exercise</option>
+                            <option value=1.55 selected>Moderate Exercise</option>
+                            <option value=1.725>Hard Exercise</option>
+                            <option value=1.9>Extra Active</option>
+                        <% } %>
+                        <% if(user.healthInfo.activity == 1.725){ %>
+                            <option value=1.2>Sedentary</option>
+                            <option value=1.375>Light Exercise</option>
+                            <option value=1.55>Moderate Exercise</option>
+                            <option value=1.725 selected>Hard Exercise</option>
+                            <option value=1.9>Extra Active</option>
+                        <% } %>
+                        <% if(user.healthInfo.activity == 1.9){ %>
+                            <option value=1.2>Sedentary</option>
+                            <option value=1.375>Light Exercise</option>
+                            <option value=1.55>Moderate Exercise</option>
+                            <option value=1.725>Hard Exercise</option>
+                            <option value=1.9 selected>Extra Active</option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            <div class="field">
+                <div class="title-label">Goal</div>
+                <div class="control">
+                    <select class="form-control" name="goal" value="<%= user.healthInfo.goal %>" required>
+                        <% if(user.healthInfo.goal == -500){ %>
+                            <option value=-500 selected >Lose Weight</option>
+                            <option value=0>Maintain Weight</option>
+                            <option value=500>Gain Weight</option>
+                        <% } %>
+                        <% if(user.healthInfo.goal == 0){ %>
+                            <option value=-500>Lose Weight</option>
+                            <option value=0 selected>Maintain Weight</option>
+                            <option value=500>Gain Weight</option>
+                        <% } %>
+                        <% if(user.healthInfo.goal == 500){ %>
+                            <option value=-500>Lose Weight</option>
+                            <option value=0>Maintain Weight</option>
+                            <option value=500 selected>Gain Weight</option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            <input class="save-button" type="submit" value="Save">
+        </form>
+    </div>
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+    body {
+        font-family: 'Open Sans', sans-serif;
+        background-color: rgb(247, 247, 247);
+    }
+
+    .save-button {
+        margin-top: 1rem;
+        border-style: solid;
+        border-radius: .25rem;
+        border-width: 0px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        background-color: #3678BF;
+        color: #F8F7FF;
+    }
+
+    .save-button:hover {
+        background-color: #2D649F;
+        color: #EBEBEB;
+        transition: .4s ease;
+    }
+</style>
+
+<script>
+    (function() {
+        function setDash(){
+            document.getElementsByClassName("sidebar-item")[1].classList.add("active");
+        }
+
+        setDash();
+    })();
+</script>

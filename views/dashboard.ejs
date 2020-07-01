@@ -1,6 +1,59 @@
 <%- include("components/header") %>
 <body>
-    <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="add-food" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Track a Food</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/newFood" method="POST" autocomplete="off">
+                        <label style="font-size: 1.2rem; font-weight: bold; border-bottom-style: solid; border-bottom-width: 1px; border-color: rgb(180, 180, 180); width: 100%;">General</label>
+                        <div class="field" style="margin-top: 0rem;">
+                            <label>Food Name</label>
+                            <div class="control">
+                                <input class="modal-field form-control" type="text" name="name" placeholder="ex: scrambled eggs" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Calories</label>
+                            <div class="control">
+                                <input class="modal-field form-control" type="text" name="calories" required>
+                            </div>
+                        </div>
+                        <label style="font-size: 1.2rem; font-weight: bold; border-bottom-style: solid; border-bottom-width: 1px; border-color: rgb(180, 180, 180); width: 100%; margin-top: 1rem;">Macros</label>
+                        <div class="field" style="margin-top: 0rem;">
+                            <label>Fat <span style="font-size:.75rem;">(grams)</span></label>
+                            <div class="control">
+                                <input class="modal-field form-control" type="text" name="fat" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Protien <span style="font-size:.75rem;">(grams)</span></label>
+                            <div class="control">
+                                <input class="modal-field form-control" type="text" name="protien" required>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>Carbs <span style="font-size:.75rem;">(grams)</span></label>
+                            <div class="control">
+                                <input class="modal-field form-control" type="text" name="carbs" required>
+                            </div>
+                        </div>
+                        <input class="form-control add-food-submit" type="submit" value="Track Food" style="margin-top:1rem;">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include("components/sidebar") %>
+
+    <div class="container" style="margin-left: calc(21% + 100px); padding-top: 3rem;">
         <div class="left-side">
             <div class="card tracker welcome">
                 <h2 style="font-weight: bold;"><span id="welcome"></span> <%= user.name %></h2>
@@ -9,48 +62,68 @@
             </div>
 
             <div class="card tracker" id="calories">
-                <h5>Calorie Tracker</h5>
+                <h5 class="tracker-header">Calorie Tracker</h5>
                 <p class="calorie-ratio"><%= currentCalories %> / <%= calorieNeeds %> <span style="font-size: 1rem; font-weight: bold;">Kcal</span></p>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped progress-bar-animated" id="calorie-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%; max-width: <%= (Math.round((currentCalories / calorieNeeds) * 100) > 100 ? 100 : Math.round((currentCalories / calorieNeeds) * 100)) %>%"></div>
                 </div>
             </div>
             
-            <div class="card tracker" id="foods">
-                <h5>Food Tracker</h5>
-                <% user.foods.forEach(food => { %>
-                    <% if(food.date.getDate() == (new Date).getDate() && food.date.getMonth() == (new Date).getMonth() && food.date.getFullYear() == (new Date).getFullYear()){ %>
-                        <div class="card food-card" id="<%=food._id%>">
-                            <h6><%= food.name %></h6>
+            <div class="card tracker" id="foods" style="position: relative;">
+                <h5 class="tracker-header">Food Tracker</h5>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary add-food-modal-button" data-toggle="modal" data-target="#add-food" style="width: 5rem; height: 2rem; border-radius: .5rem; font-size: .75rem; position: absolute; right: 1rem;">
+                    Add Food
+                </button>
+                <% todaysFoods.forEach(food => { %>
+                    <div class="card food-card" id="<%=food._id%>">
+                        <div class="food-time">
+                            <%= (food.date.getHours() <= 11 ? (food.date.getHours() == 0 ? 12 : food.date.getHours()) : ((food.date.getHours() - 12) == 0 ? 12 : (food.date.getHours() - 12))) %>:<%= (food.date.getMinutes() < 10 ? `0${food.date.getMinutes()}` : food.date.getMinutes()) %>
+                            <%= (food.date.getHours() <= 11 ? "am" : "pm") %>
                         </div>
-                    <% } %>
+                        <div class="food-title">
+                            <%= food.name %>
+                            <span style="font-size: 1rem; color: rgb(180, 180, 180)">- <%= food.calories %> Kcal</span>
+                        </div>
+                        <div class="food-macros">
+                            <div class="food-macro food-fat">
+                                <div class="food-macro-point" style="background-color: #28CCC7;"></div><%= food.macros.fat %>g
+                            </div>
+                            <div class="food-macro food-protien">
+                                <div class="food-macro-point" style="background-color: #FFC05C;"></div><%= food.macros.protien %>g
+                            </div>
+                            <div class="food-macro food-carbs">
+                                <div class="food-macro-point" style="background-color: #EB3333;"></div><%= food.macros.carbs %>g 
+                            </div>
+                        </div>
+                    </div>
                 <% }); %>
             </div>
         </div>
         <div class="card tracker" id="macros">
-            <h5>Macro Tracker</h5>
+            <h5 class="tracker-header">Macro Tracker</h5>
             <div class="macro-progress">
                 <div class="fat macro">
                     <div class="macro-bar">
-                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.fat %>%"></div>
+                        <div class="macro-fill" style="background-color: #28CCC7; height: 0; max-height:<%= currentMacros.fat %>%;"></div>
                     </div>
-                    <div class="macro-label" style="margin-left: 2rem;">Fat</div>
+                    <div class="macro-label" style="color: #28CCC7; margin-left: 2rem;">Fat</div>
                     <div class="ideal-ratio" style="display:none"><%= macroRatio.fat %></div>
                 </div>
                 
                 <div class="protien macro">
                     <div class="macro-bar">
-                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.protien %>%"></div>
+                        <div class="macro-fill" style="background-color: #FFC05C; height: 0; max-height:<%= currentMacros.protien %>%"></div>
                     </div>
-                    <div class="macro-label" style="margin-left: 1.5rem;">Protien</div>
+                    <div class="macro-label" style="color: #FFC05C; margin-left: 1.5rem;">Protien</div>
                     <div class="ideal-ratio" style="display:none"><%= macroRatio.protien %></div>
                 </div>
                 
                 <div class="carbs macro">
                     <div class="macro-bar">
-                        <div class="macro-fill" style="height: 0; max-height:<%= currentMacros.carbs %>%"></div>
+                        <div class="macro-fill" style="background-color: #EB3333; height: 0; max-height:<%= currentMacros.carbs %>%"></div>
                     </div>
-                    <div class="macro-label" style="margin-left: 1.7rem;">Carbs</div>
+                    <div class="macro-label" style="color: #EB3333; margin-left: 1.7rem;">Carbs</div>
                     <div class="ideal-ratio" style="display:none"><%= macroRatio.carbs %></div>
                 </div>
                 
@@ -82,10 +155,49 @@
 </body>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
     body {
-        font-family: 'Nunito', sans-serif;
+        font-family: 'Open Sans', sans-serif;
         background-color: rgb(247, 247, 247);
+    }
+
+    .field {
+        margin-top: 1rem;
+    }
+
+    .modal-field{
+        border-style: solid;
+        border-width: 1px;
+        border-radius: .25rem;
+        border-color: rgb(180, 180, 180);
+    }
+
+    .modal-field:focus{
+        border-width: 2px;
+        border-color: rgb(180, 180, 180);
+    }
+
+    .add-food-modal-button{
+        background-color: #3678BF;
+        color: #F8F7FF;
+    }
+
+    .add-food-modal-button:hover{
+        background-color: #2D649F;
+        color: #EBEBEB;
+        transition: .4s ease;
+    }
+
+    .add-food-submit{
+        background-color: #3678BF;
+        color: #F8F7FF;
+    }
+
+    .add-food-submit:hover{
+        background-color: #2D649F;
+        color: #EBEBEB;
+        transition: .4s ease;
     }
 
     .tracker {
@@ -94,6 +206,12 @@
         margin-right: 1rem;
         padding: 1rem;
         border-radius: .5rem;
+        transition: all .4s ease;
+    }
+
+    .tracker:hover {
+        box-shadow: 2px 1px 25px 5px rgba(166, 166, 166, .2);
+        transform: scale(1.005);
     }
 
     .left-side{
@@ -129,15 +247,49 @@
     #foods{
         width: 34.5rem;
         float: left;
-        height: 60%;
+        height: 55%;
         overflow-y: scroll;
     }
 
     .food-card{
         margin-top: 1rem;
-        height: 20%;
+        height: 7rem;
         border-radius: 1rem;
         padding: 1rem;
+        transition: all .4s ease;
+    }
+
+    .food-card:hover{
+        box-shadow: 2px 1px 25px 5px rgba(166, 166, 166, .2);
+        transform: scale(1.005);
+        transition-duration: 4ms;
+    }
+
+    .food-time{
+        width: 5rem;
+        color:rgb(180, 180, 180);
+    }
+
+    .food-title{
+        font-size: 1.5rem;
+    }
+
+    .food-macros{
+        margin-left: 3rem;
+    }
+
+    .food-macro-point{
+        width: .5rem;
+        height: .5rem;
+        border-radius: .5rem;
+        float: left;
+        margin-top: .5rem;
+        margin-right: .25rem;
+    }
+
+    .food-macro{
+        margin-left: 4rem;
+        float: left;
     }
 
     #macros{
@@ -221,6 +373,10 @@
 
 <script>
     (function() {
+        function setDash(){
+            document.getElementsByClassName("sidebar-item")[0].classList.add("active");
+        }
+
         function getTime(){
             var date = new Date();
             var hour = date.getHours() <= 11 ? (date.getHours() == 0 ? 12 : date.getHours()) : ((date.getHours() - 12) == 0 ? 12 : (date.getHours() - 12));
@@ -243,10 +399,10 @@
         function calorieColorDetection(){
             var current = document.getElementsByClassName("calorie-ratio")[0].innerHTML.substring(0, document.getElementsByClassName("calorie-ratio")[0].innerHTML.indexOf("/"));
             var ideal = document.getElementsByClassName("calorie-ratio")[0].innerHTML.substring(document.getElementsByClassName("calorie-ratio")[0].innerHTML.indexOf("/") + 2, document.getElementsByClassName("calorie-ratio")[0].innerHTML.indexOf("<"));
-            if(current == ideal){
+            if(parseInt(current) == parseInt(ideal)){
                 document.getElementById("calorie-bar").classList.add("bg-success");
                 document.getElementsByClassName("calorie-ratio")[0].style.color = "#4BB543";
-            }else if(current > ideal){
+            }else if(parseInt(current) > parseInt(ideal)){
                 if(document.getElementById("calorie-bar").classList.contains("bg-success")){
                     document.getElementById("calorie-bar").classList.remove("bg-success");    
                 }
@@ -302,6 +458,7 @@
             });
         }
 
+        setDash();
         tellTime();
         calorieAnim();
         macroAnim();

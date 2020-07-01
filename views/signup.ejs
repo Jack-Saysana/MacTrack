@@ -2,48 +2,185 @@
 <% if(message != ""){ %>
     <p><%= message %></p>
 <% } %>
-<form action="/signup" method="POST">
-    <div class="field">
-        <div class="title-label">Name</div>
-        <div class="control">
-            <input type="text" name="name">
+
+<div class="sidebar">
+    <img class="signup-img" src="/images/signup.svg">
+    <div class="sidebar-text">Welcome to MacTrack!<span class="sidebar-text-lower"> We're glad you're here.</span></div>
+</div>
+<div class="container signup-field">
+    <h3>Create your MacTrack Account</h3>
+    <a href="/login" class="login-link">Already have an account? Log in here</a>
+    <form action="/signup" method="POST" autocomplete="off">
+        <div class="field">
+            <div class="control">
+                <input class="signup-input" placeholder="Name" type="text" name="name" required>
+            </div>
         </div>
-        <div class="title-label">Email</div>
-        <div class="control">
-            <input type="email" name="email">
+        <div class="field">
+            <div class="control">
+                <input class="signup-input" placeholder="Email" type="email" name="email" required>
+            </div>
         </div>
-        <div class="title-label">Password</div>
-        <div class="control">
-            <input type="password" name="password">
+        <div class="field">
+            <div class="control">
+                <input class="signup-input" placeholder="Password" type="password" name="password" required>
+            </div>
         </div>
-        <div class="title-label">Sex</div>
-        <div class="control">
-            <input type="text" name="sex">
+        <div class="field">
+            <div class="title-label">Sex</div>
+            <div class="control">
+                <select class="signup-select" size="2" name="sex" required>
+                    <option class="signup-option" value="Male">Male</option>
+                    <option class="signup-option" value="Female">Female</option>
+                </select>
+            </div>
         </div>
-        <div class="title-label">Weight</div>
-        <div class="control">
-            <input type="number" name="weight">
+        <div class="field">
+            <div class="control">
+                <input class="signup-input" placeholder="Weight (lbs)" type="text" name="weight" required>
+            </div>
         </div>
-        <div class="title-label">Height</div>
-        <div class="control">
-            <input type="number" name="height">
+        <div class="field">
+            <div class="control">
+                <input class="signup-input" placeholder="Height (in)" type="text" name="height" required>
+            </div>
         </div>
-        <div class="title-label">Age</div>
-        <div class="control">
-            <input type="number" name="age">
+        <div class="field">
+            <div class="control">
+                <input class="signup-input" placeholder="Age" type="text" name="age" required>
+            </div>
         </div>
-        <div class="title-label">Activity</div>
-        <div class="control">
-            <input type="number" name="activity">
+        <div class="field">
+            <div class="title-label">Activity</div>
+            <div class="control">
+                <select class="signup-select" size="5" name="activity" required>
+                    <option class="signup-option" value=1.2>Sedentary</option>
+                    <option class="signup-option" value=1.375>Light Exercise</option>
+                    <option class="signup-option" value=1.55>Moderate Exercise</option>
+                    <option class="signup-option" value=1.725>Hard Exercise</option>
+                    <option class="signup-option" value=1.9>Extra Active</option>
+                </select>
+            </div>
         </div>
-        <div class="title-label">Goal</div>
-        <div class="control">
-            <select name="goal">
-                <option value=-500>Lose Weight</option>
-                <option value=0>Maintain Weight</option>
-                <option value=500>Gain Weight</option>
-            </select>
+        <div class="field">
+            <div class="title-label">Goal</div>
+            <div class="control">
+                <select class="signup-select" size="3" name="goal" required>
+                    <option class="signup-option" value=-500>Lose Weight</option>
+                    <option class="signup-option" value=0>Maintain Weight</option>
+                    <option class="signup-option" value=500>Gain Weight</option>
+                </select>
+            </div>
         </div>
-    </div>
-    <input type="submit" value="signup">
-</form>
+        <input class="signup-button" type="submit" value="signup">
+    </form>
+</div>
+
+<style>
+    .login-link {
+        text-decoration: none; 
+        color:rgb(180, 180, 180);
+    }
+
+    .login-link:hover{
+        color: rgb(110, 110, 110);
+        transition-duration: .2s;
+    }
+    
+    .sidebar {
+        position: fixed;
+        margin: 0;
+        padding: 0;
+        width: 600px;
+        height: 100%;
+        background-color: #1C2121;
+        color: #FAFAFA;
+    }
+
+    .signup-img{
+        width: 50%;
+        margin-top: 40%;
+        margin-left: 25%;
+    }
+
+    .sidebar-text{
+        color: #EBEBEB;
+        width: 60%;
+        text-align: center;
+        font-size: 2rem;
+        margin-left: 20%;
+        margin-top: 1rem;
+    }
+
+    .sidebar-text-lower{
+        font-size: 1.25rem;
+        color:rgb(180, 180, 180)
+    }
+
+    .signup-field {
+        width: calc(60% - 4rem);
+        margin-left: calc(600px + 20rem);
+        padding-top: 2rem;
+    }
+
+    .signup-input {
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+        border-bottom-style: solid;
+        border-width: 0px;
+        border-bottom-width: 1px;
+        border-bottom-color: #3678BF;
+        width: 70%;
+        margin-top: 2rem;
+    }
+
+    .signup-input:focus {
+        outline: none;
+    }
+
+    .title-label{
+        margin-top: 2rem;
+        color: #8e8e8e;
+    }
+
+    .signup-select{
+        margin-top: .5rem;
+        overflow-y: hidden;
+        height: 2.5rem;
+        border-style: solid;
+        border-width: 1px;
+        border-radius: .25rem;
+        border-color: #3678BF;
+    }
+
+    .signup-select:focus{
+        outline:none;
+    }
+
+    .signup-option {
+        height: 100%;
+        padding-top: .5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        float: left;
+    }
+
+    .signup-button {
+        margin-top: 1rem;
+        border-style: solid;
+        border-radius: .25rem;
+        border-width: 0px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        background-color: #3678BF;
+        color: #F8F7FF;
+    }
+
+    .signup-button:hover {
+        background-color: #2D649F;
+        color: #EBEBEB;
+        transition: .4s ease;
+    }
+</style>

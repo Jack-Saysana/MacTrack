@@ -44,21 +44,22 @@ router.get("/dashboard", isLoggedIn, (req, res, next) => {
     const macroRatio = req.user.healthInfo.goal == 0 ? {fat: 25, protien: 25, carbs: 50} : req.user.healthInfo.goal == -500 ? {fat: 30, protien: 50, carbs: 20} : {fat: 25, protien: 35, carbs: 40};
     let currentCalories = 0;
     let macros = {fat: 0, protien: 0, carbs: 0};
-    req.user.foods.forEach(food => {
-        if(food.date.getDate() == (new Date).getDate() && food.date.getMonth() == (new Date).getMonth() && food.date.getFullYear() == (new Date).getFullYear()){
-            currentCalories += food.calories;
-            macros.fat += food.macros.fat;
-            macros.protien += food.macros.protien;
-            macros.carbs += food.macros.carbs;
-        }
+    const todaysFoods = req.user.foods.filter(food => 
+        food.date.getDate() == (new Date).getDate() && food.date.getMonth() == (new Date).getMonth() && food.date.getFullYear() == (new Date).getFullYear()
+    );
+    todaysFoods.forEach(food => {
+        currentCalories += food.calories;
+        macros.fat += food.macros.fat;
+        macros.protien += food.macros.protien;
+        macros.carbs += food.macros.carbs;
     });
     const totalMacros = macros.fat + macros.protien + macros.carbs;
     macros = { fat: 100 * (macros.fat / totalMacros), protien: 100*(macros.protien / totalMacros), carbs: 100*(macros.carbs / totalMacros)};
-    res.render("dashboard", {user: req.user, calorieNeeds: Math.ceil(calorieNeeds), currentCalories: currentCalories, currentMacros: macros, macroRatio: macroRatio});
+    res.render("dashboard", {user: req.user, todaysFoods: todaysFoods, calorieNeeds: Math.ceil(calorieNeeds), currentCalories: currentCalories, currentMacros: macros, macroRatio: macroRatio});
 });
 
 router.post("/newFood", async (req, res, next) => {
-    User.findById(req.body.user._id, async (err, user) => {
+    User.findById(req.user._id, async (err, user) => {
         if(err) throw err;
 
         user.foods.push(new Food({
@@ -79,12 +80,36 @@ router.post("/newFood", async (req, res, next) => {
     });
 });
 
-router.get("/user/:userId", (req, res, next) => {
-
+router.get("/user", (req, res, next) => {
+    res.redirect(`/user/${req.user._id}`);
 });
 
-router.post("/user/:userId", (req, res, next) => {
+router.get("/user/:userId", (req, res, next) => {
+    res.render("profile", {user: req.user, message: req.flash("message")});
+});
 
+router.post("/user/:userId", async (req, res, next) => {
+    const user = await User.findOne({ email: req.user.email.toLowerCase() });
+    const emailExists = await User.exists({ email: req.body.email.toLowerCase() });
+    if(!(emailExists) || req.body.email == user.email){
+        user.name = req.body.name;
+        user.email = req.body.email;
+        user.healthInfo.sex = req.body.sex;
+        user.healthInfo.weight = req.body.weight;
+        user.healthInfo.height = req.body.height;
+        user.healthInfo.age = req.body.age;
+        user.healthInfo.activity = req.body.activity;
+        user.healthInfo.goal = req.body.goal;
+        try {
+            user.save();
+            res.redirect(`/user/${user._id}`);
+        }catch{
+            res.status(400);
+        }
+    } else {
+        req.flash("message", "Sorry, that email is taken.");
+        res.redirect(`/user/${user._id}`);
+    }
 });
 
 module.exports = router;
