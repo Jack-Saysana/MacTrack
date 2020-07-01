@@ -2,16 +2,110 @@
 <% if(message != ""){ %>
     <p><%= message %></p>
 <% } %>
-<form action="/login" method="POST">
-    <div class="field">
-        <div class="title-label">email</div>
-        <div class="control">
-            <input type="email" name="email">
+
+<div class="sidebar">
+    <img class="login-img" src="/images/login.svg">
+    <div class="sidebar-text">Welcome back!</div>
+    <div class="sidebar-text-lower"> We're glad you're here.</div>
+</div>
+<div class="container login-field">
+    <h3>Login to your MacTrack Account</h3>
+    <a href="/signup" class="signup-link">Don't have an account? Sign up here</a>
+    <form action="/login" method="POST">
+        <div class="field">
+            <div class="control">
+                <input class="login-input" placeholder="Email" type="email" name="email" required>
+            </div>
+            <div class="control">
+                <input class="login-input" placeholder="Password" type="password" name="password" required>
+            </div>
         </div>
-        <div class="field">password</div>
-        <div class="control">
-            <input type="password" name="password">
-        </div>
-    </div>
-    <input type="submit" value="Login">
-</form>
+        <input class="login-button" type="submit" value="Login">
+    </form>
+</div>
+
+
+<style>
+    .signup-link {
+        text-decoration: none; 
+        color:rgb(180, 180, 180);
+    }
+
+    .signup-link:hover{
+        color: rgb(110, 110, 110);
+        transition-duration: .2s;
+    }
+
+    .sidebar {
+        position: fixed;
+        margin: 0;
+        padding: 0;
+        width: 600px;
+        height: 100%;
+        background-color: #1C2121;
+        color: #FAFAFA;
+    }
+
+    .login-img{
+        width: 30%;
+        margin-top: 40%;
+        margin-left: 35%;
+    }
+
+    .sidebar-text{
+        color: #EBEBEB;
+        width: 60%;
+        text-align: center;
+        font-size: 2rem;
+        margin-left: 20%;
+        margin-top: 1rem;
+    }
+
+    .sidebar-text-lower{
+        font-size: 1.25rem;
+        color:rgb(180, 180, 180);
+        text-align: center;
+        width: 60%;
+        margin-left: 20%;
+    }
+
+    .login-field {
+        width: calc(60% - 4rem);
+        margin-left: calc(600px + 20rem);
+        padding-top: 20rem;
+    }
+
+    .login-input {
+        padding-top: .5rem;
+        padding-bottom: .5rem;
+        border-bottom-style: solid;
+        border-width: 0px;
+        border-bottom-width: 1px;
+        border-bottom-color: #3678BF;
+        width: 70%;
+        margin-top: 2rem;
+    }
+
+    .login-input:focus {
+        outline: none;
+    }
+
+    .login-button {
+        margin-top: 1rem;
+        border-style: solid;
+        border-radius: .25rem;
+        border-width: 0px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: .25rem;
+        padding-bottom: .25rem;
+        background-color: #3678BF;
+        color: #F8F7FF;
+    }
+
+    .login-button:hover {
+        background-color: #2D649F;
+        color: #EBEBEB;
+        transition: .4s ease;
+    }
+</style>
