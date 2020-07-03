@@ -13,7 +13,7 @@ MacTrack is a dieting service that helps it's users plan and manage a macronutri
 ![](https://i.gyazo.com/3ca8053dd1506e813f6d5175bd6ab008.png)
 6. Run the command `npm i` into the console
 ![](https://i.gyazo.com/f7a825c1a1f33268b431526d2cbcfe04.png)
-7. Once the console finishes loading, type `npm run devStart` into the console
+7. Once the console finishes loading, run the command `npm run devStart` into the console
 ![](https://i.gyazo.com/105d8dc6bbd682e931bbec14a44679a7.png)
 8. Visit http://localhost:3000 and the website should be running!
 ![](https://i.gyazo.com/38323bb38dde0dbdf49d4dc645c09e52.png)
