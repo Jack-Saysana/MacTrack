@@ -22,7 +22,7 @@ app.set("view engine", "ejs");
 app.set("views", "./views");
 app.use(express.static("./public"));
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: "qtbuK2L|-F0,V;CjY)5BH{qjMDWa",
     resave: false,
     saveUninitialized: false
 }));
