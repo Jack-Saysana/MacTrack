@@ -3,7 +3,7 @@
 <body>
     <%- include("components/sidebar") %>
 
-    <div class="container" style="margin-left: calc(21% + 100px); padding-top: 3rem;">
+    <div class="container" style="margin-left: 25%; padding-top: 3rem; width: 60%;">
         <h2 style="font-weight: bold;">Hello, <%= user.name %></h2>
         <h5 style="color: rgb(180, 180, 180)">Edit your details...</h5>
         <form action="/user/<%= user._id %>" method="POST" autocomplete="off">
