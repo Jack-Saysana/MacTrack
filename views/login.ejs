@@ -1,7 +1,4 @@
 <%- include("components/header") %>
-<% if(message != ""){ %>
-    <p><%= message %></p>
-<% } %>
 
 <div class="sidebar">
     <img class="login-img" src="/images/login.svg">
@@ -12,6 +9,9 @@
     <h3>Login to your MacTrack Account</h3>
     <a href="/signup" class="signup-link">Don't have an account? Sign up here</a>
     <form action="/login" method="POST">
+        <% if(message != ""){ %>
+            <p class="invalid-message"><%= message %></p>
+        <% } %>
         <div class="field">
             <div class="control">
                 <input class="login-input" placeholder="Email" type="email" name="email" required>
@@ -107,5 +107,12 @@
         background-color: #2D649F;
         color: #EBEBEB;
         transition: .4s ease;
+    }
+
+    .invalid-message {
+        position: absolute;
+        margin-top: 1rem;
+        color: red;
+        font-size: .75rem;
     }
 </style>

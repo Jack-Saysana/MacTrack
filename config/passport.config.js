@@ -12,8 +12,24 @@ module.exports = passport => {
         usernameField: "email"
     },
     async (req, username, password, done) => {
-        if(await User.exists({email: username})){
-            return done(null, false, req.flash("signupMessage", "An account with this email exists already. Please use a different email."));
+        const emailInvalid = await User.exists({email: username});
+        const weightInvalid = req.body.weight < 0;
+        const heightInvalid = req.body.height < 0;
+        const ageInvalid = req.body.age < 0;
+        if(emailInvalid){
+            req.flash("emailMessage", "An account with this email exists already. Please use a different email.");
+        }
+        if(weightInvalid){
+            req.flash("weightMessage", "Invalid weight");
+        }
+        if(heightInvalid){
+            req.flash("heightMessage", "Invalid height");
+        }
+        if(ageInvalid){
+            req.flash("ageMessage", "Invalid age");
+        }
+        if(emailInvalid || weightInvalid || heightInvalid || ageInvalid){
+            return done(null, false);
         }
         let newUser = new User({
             name: req.body.name,
@@ -29,7 +45,7 @@ module.exports = passport => {
         });
         newUser.password = newUser.generateHash(password);
         newUser.save(err => {
-            if (err) throw err;
+            if (err) console.log(err);
             return done(null, newUser);
         });
     }
@@ -44,9 +60,9 @@ module.exports = passport => {
             if (err) throw err;
 
             if (!user)
-                return done(null, false, req.flash("loginMessage", "No user found."));
+                return done(null, false, req.flash("loginMessage", "Invalid login"));
             if (!user.validatePassword(password))
-                return done(null, false, req.flash("loginMessage", "Wrong password."));
+                return done(null, false, req.flash("loginMessage", "Invalid login"));
 
             return done(null, user);
         });

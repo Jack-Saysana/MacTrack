@@ -7,9 +7,6 @@
         <h2 style="font-weight: bold;">Hello, <%= user.name %></h2>
         <h5 style="color: rgb(180, 180, 180)">Edit your details...</h5>
         <form action="/user/<%= user._id %>" method="POST" autocomplete="off">
-            <% if(message != ""){ %>
-                <%= message %>
-            <% } %>
             <div class="field">
                 <div class="title-label">Name</div>
                 <div class="control">
@@ -21,6 +18,9 @@
                 <div class="control">
                     <input class="form-control" type="email" name="email" value="<%= user.email %>" required>
                 </div>
+                <% if(emailMessage != ""){ %>
+                    <p class="invalid-message"><%= emailMessage %></p>
+                <% } %>
             </div>
             <div class="field">
                 <div class="title-label">Sex</div>
@@ -34,20 +34,29 @@
             <div class="field">
                 <div class="title-label">Weight (lbs)</div>
                 <div class="control">
-                    <input class="form-control" type="text" name="weight" value="<%= user.healthInfo.weight %>" required>
+                    <input class="form-control" type="number" name="weight" value="<%= user.healthInfo.weight %>" required>
                 </div>
+                <% if(weightMessage != ""){ %>
+                    <p class="invalid-message"><%= weightMessage %></p>
+                <% } %>
             </div>
             <div class="field">
                 <div class="title-label">Height (in)</div>
                 <div class="control">
-                    <input class="form-control" type="text" name="height" value="<%= user.healthInfo.height %>" required>
+                    <input class="form-control" type="number" name="height" value="<%= user.healthInfo.height %>" required>
                 </div>
+                <% if(heightMessage != ""){ %>
+                    <p class="invalid-message"><%= heightMessage %></p>
+                <% } %>
             </div>
             <div class="field">
                 <div class="title-label">Age</div>
                 <div class="control">
-                    <input class="form-control" type="text" name="age" value="<%= user.healthInfo.age %>" required>
+                    <input class="form-control" type="number" name="age" value="<%= user.healthInfo.age %>" required>
                 </div>
+                <% if(ageMessage != ""){ %>
+                    <p class="invalid-message"><%= ageMessage %></p>
+                <% } %>
             </div>
             <div class="field">
                 <div class="title-label">Activity</div>
@@ -143,6 +152,11 @@
         background-color: #2D649F;
         color: #EBEBEB;
         transition: .4s ease;
+    }
+
+    .invalid-message {
+        color: red;
+        font-size: .75rem;
     }
 </style>
 

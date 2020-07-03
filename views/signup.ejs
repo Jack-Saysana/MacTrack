@@ -1,7 +1,4 @@
 <%- include("components/header") %>
-<% if(message != ""){ %>
-    <p><%= message %></p>
-<% } %>
 
 <div class="sidebar">
     <img class="signup-img" src="/images/signup.svg">
@@ -20,6 +17,9 @@
             <div class="control">
                 <input class="signup-input" placeholder="Email" type="email" name="email" required>
             </div>
+            <% if(emailMessage != ""){ %>
+                <p class="invalid-message"><%= emailMessage %></p>
+            <% } %>
         </div>
         <div class="field">
             <div class="control">
@@ -37,18 +37,27 @@
         </div>
         <div class="field">
             <div class="control">
-                <input class="signup-input" placeholder="Weight (lbs)" type="text" name="weight" required>
+                <input class="signup-input" placeholder="Weight (lbs)" type="number" name="weight" required>
             </div>
+            <% if(weightMessage != ""){ %>
+                <p class="invalid-message"><%= weightMessage %></p>
+            <% } %>
         </div>
         <div class="field">
             <div class="control">
-                <input class="signup-input" placeholder="Height (in)" type="text" name="height" required>
+                <input class="signup-input" placeholder="Height (in)" type="number" name="height" required>
             </div>
+            <% if(heightMessage != ""){ %>
+                <p class="invalid-message"><%= heightMessage %></p>
+            <% } %>
         </div>
         <div class="field">
             <div class="control">
-                <input class="signup-input" placeholder="Age" type="text" name="age" required>
+                <input class="signup-input" placeholder="Age" type="number" name="age" required>
             </div>
+            <% if(ageMessage != ""){ %>
+                <p class="invalid-message"><%= ageMessage %></p>
+            <% } %>
         </div>
         <div class="field">
             <div class="title-label">Activity</div>
@@ -182,5 +191,10 @@
         background-color: #2D649F;
         color: #EBEBEB;
         transition: .4s ease;
+    }
+
+    .invalid-message {
+        color: red;
+        font-size: .75rem;
     }
 </style>

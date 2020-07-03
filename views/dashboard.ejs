@@ -72,6 +72,9 @@
             <div class="card tracker" id="foods" style="position: relative;">
                 <h5 class="tracker-header">Food Tracker</h5>
                 <!-- Button trigger modal -->
+                <% if(foodMessage != ""){ %>
+                    <p class="invalid-message"><%= foodMessage %></p>
+                <% } %>
                 <button type="button" class="btn btn-primary add-food-modal-button" data-toggle="modal" data-target="#add-food" style="width: 5rem; height: 2rem; border-radius: .5rem; font-size: .75rem; position: absolute; right: 1rem;">
                     Add Food
                 </button>
@@ -368,6 +371,11 @@
 
     .current {
         font-weight: bold;
+    }
+
+    .invalid-message{
+        color: red;
+        font-size: .75rem;
     }
 </style>
 

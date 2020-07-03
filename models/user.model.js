@@ -9,20 +9,44 @@ const foodSchema = new Schema({
     },
     calories: {
         type: Number,
-        required: true
+        validate: {
+            validator: calories => {
+                return calories >= 0;
+            },
+            message: 'Input cannot be negative'
+        },
+        required: [true, 'Invalid calories input']
     },
     macros: {
         fat: {
             type: Number,
-            required: true
+            validate: {
+                validator: fat => {
+                    return fat >= 0;
+                },
+                message: 'Input cannot be negative'
+            },
+            required: [true, 'Invalid fat input']
         },
         protien: {
             type: Number,
-            required: true
+            validate: {
+                validator: protien => {
+                    return protien >= 0;
+                },
+                message: 'Input cannot be negative'
+            },
+            required: [true, 'Invalid protien input']
         },
         carbs: {
             type: Number,
-            required: true
+            validate: {
+                validator: carbs => {
+                    return carbs >= 0;
+                },
+                message: 'Input cannot be negative'
+            },
+            required: [true, 'Invalid carb input']
         }
     },
     date: {
@@ -51,15 +75,33 @@ const userSchema = new Schema({
         },
         weight: {
             type: Number,
-            required: true
+            validate: {
+                validator: weight => {
+                    return weight > 0;
+                },
+                message: 'Input cannot be negative'
+            },
+            required: [true, 'Invalid weight']
         },
         height: {
             type: Number,
-            required: true
+            validate: {
+                validator: height => {
+                    return height > 0;
+                },
+                message: 'Input cannot be negative'
+            },
+            required: [true, 'Invalid height']
         },
         age: {
             type: Number,
-            required: true
+            validate: {
+                validator: age => {
+                    return age > 0;
+                },
+                message: 'Input cannot be negative'
+            },
+            required: [true, 'Invalid age']
         },
         activity: {
             type: Schema.Types.Decimal128,
